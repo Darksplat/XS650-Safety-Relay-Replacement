@@ -1,0 +1,517 @@
+# XS650 Safety Relay Replacement (1980–1983 Yamaha XS650)
+
+## Professional Dual-Relay Replacement Solution
+
+---
+
+# Overview
+
+This project recreates the factory Yamaha XS650 Safety Relay using modern, easily available automotive components.
+
+The original Yamaha unit performed two important jobs:
+
+1. Disabled the starter motor after the engine started
+2. Delayed the headlight turning on until the engine was running
+
+Unfortunately, original safety relay modules are now:
+- expensive
+- unreliable
+- difficult to source
+- commonly failed internally due to age
+
+This project replaces the factory module using:
+
+- 2 × standard automotive relays
+- 1 × resistor
+- 1 × diode
+
+No microcontrollers.
+No programming.
+No exotic parts.
+
+The system behaves almost identically to the original Yamaha design.
+
+---
+
+# IMPORTANT NOTES
+
+## This guide is designed for:
+
+- 1980–1983 Yamaha XS650 models
+- Stock alternator systems
+- Bikes retaining the yellow alternator trigger wire
+- Bikes using electronic ignition systems such as TriSpark
+
+---
+
+## This guide is NOT for:
+
+- PMA (Permanent Magnet Alternator) conversions
+- Custom race looms without charging trigger wiring
+- CDI ignition conversions requiring different startup logic
+
+---
+
+# What The Original Yamaha Safety Relay Did
+
+The factory system had two internal relays:
+
+## Relay 1 — Starter Cut-Off Relay (SR)
+
+Purpose:
+- Prevents accidentally pressing the starter button while the engine is already running
+
+How it works:
+- Engine stopped → starter works normally
+- Engine running → relay opens starter circuit
+
+---
+
+## Relay 2 — Lighting Relay (LR)
+
+Purpose:
+- Prevents the headlight drawing power during startup
+- Turns headlight on once engine is running
+- Keeps headlight on until ignition is switched off
+
+How it works:
+- Engine stopped → headlight OFF
+- Engine starts → headlight ON
+- Engine stalls → headlight stays ON while key remains ON
+
+---
+
+# How This Replacement System Works
+
+This replacement uses:
+
+- Relay A = Starter Cut-Off Relay (SR)
+- Relay B = Lighting Relay (LR)
+- Diode = startup trigger isolation
+- Resistor = headlight relay latch circuit
+
+The yellow alternator wire triggers both relays once the engine starts generating AC voltage.
+
+---
+
+# Parts List
+
+## Main Components
+
+| Qty | Part | Notes |
+|-----|------|------|
+| 2 | 12V SPDT Automotive Relays | Bosch-style 5-pin relays |
+| 2 | Relay sockets | Recommended |
+| 1 | 47Ω resistor | 5W wirewound |
+| 1 | 1N5404 / 1N5408 diode | 3A minimum preferred |
+| 1 | Flyback diode | Optional but recommended |
+
+---
+
+# Recommended Jaycar Parts
+
+| Part | Example Jaycar Part |
+|------|---------------------|
+| Automotive Relay | SY4068 |
+| Relay Socket | SY4070 |
+| 47Ω 5W Resistor | RR0592 |
+| 1N5404 Diode | ZR1015 |
+| Heat Shrink Kit | WH5520 |
+| Automotive Wire | Various |
+
+NOTE:
+Part numbers may change over time.
+Always verify current stock before purchase.
+
+---
+
+# Wire Colour Reference
+
+| Colour | Function |
+|--------|----------|
+| Yellow | Alternator trigger |
+| Black | Ground |
+| Red/White | Starter circuit |
+| Red/Yellow | Lighting power feed |
+| Blue/Black | Headlight output |
+
+---
+
+# BEFORE YOU START
+
+## Disconnect The Battery
+
+ALWAYS disconnect the negative battery terminal before wiring.
+
+---
+
+## Tools Required
+
+- Crimpers
+- Soldering iron (recommended)
+- Heat shrink
+- Multimeter
+- Wire strippers
+- Small screwdrivers
+- Electrical tape
+
+---
+
+# Understanding The Relays
+
+## Bosch Relay Pinout
+
+### Pin 85
+Relay coil negative
+
+### Pin 86
+Relay coil positive
+
+### Pin 30
+Common contact
+
+### Pin 87
+Normally Open (NO)
+
+### Pin 87a
+Normally Closed (NC)
+
+---
+
+# Relay A — Starter Cut-Off Relay (SR)
+
+## Purpose
+
+Stops the starter motor working once the engine starts.
+
+---
+
+# Relay A Wiring
+
+| Pin | Connect To |
+|----|-------------|
+| 85 | Ground |
+| 86 | Yellow alternator trigger |
+| 30 | Red/White from starter button |
+| 87a | Red/White to starter solenoid |
+| 87 | Not used |
+
+---
+
+# Relay A Operation
+
+## Engine OFF
+
+Relay is relaxed.
+
+30 connects to 87a.
+
+Starter button works normally.
+
+---
+
+## Engine RUNNING
+
+Yellow wire energises relay.
+
+30 disconnects from 87a.
+
+Starter motor disabled.
+
+---
+
+# Relay B — Headlight Relay (LR)
+
+## Purpose
+
+Turns headlight on after engine starts.
+
+Keeps headlight on until ignition switched off.
+
+---
+
+# Relay B Wiring
+
+| Pin | Connect To |
+|----|-------------|
+| 85 | Ground |
+| 86 | Trigger/latch junction node |
+| 30 | Switched +12V from lighting fuse |
+| 87 | Headlight output |
+| 87a | Not used |
+
+---
+
+# THE MOST IMPORTANT PART — PIN 86 NODE
+
+This is the most critical connection in the entire project.
+
+At Relay B Pin 86 you MUST join:
+
+1. Wire from diode
+2. Wire from resistor
+3. Wire into relay pin 86
+
+All three MUST connect together.
+
+If this node is wrong:
+- the relay will not latch
+- the headlight will switch off
+- the system will not behave correctly
+
+---
+
+# Diode Wiring
+
+## Purpose
+
+Allows startup trigger voltage to reach Relay B.
+
+Prevents 12V from feeding back into the alternator.
+
+---
+
+# Correct Diode Orientation
+
+IMPORTANT:
+
+The stripe on the diode MUST face Relay B.
+
+Correct:
+
+Yellow trigger → diode → Relay B pin 86 node
+
+Wrong:
+
+Relay B → diode → Yellow trigger
+
+If installed backwards:
+- headlight relay will not work correctly
+- fuse blowing may occur
+- alternator feedback problems may occur
+
+---
+
+# Resistor Wiring
+
+## Purpose
+
+Keeps Relay B energised after startup.
+
+This is called a latch circuit.
+
+---
+
+# Correct Resistor Wiring
+
+One side:
+- Relay B pin 87
+
+Other side:
+- Relay B pin 86 node
+
+The resistor is NOT connected inline with the diode.
+
+The resistor is a separate return path.
+
+---
+
+# Optional Flyback Diode
+
+Highly recommended for electronic ignition systems.
+
+## Purpose
+
+Protects electronics from relay coil voltage spikes.
+
+---
+
+# Flyback Diode Wiring
+
+Across Relay B coil:
+
+| Connection | Location |
+|-----------|----------|
+| Stripe side | Pin 86 |
+| Non-stripe side | Pin 85 |
+
+---
+
+# System Operation
+
+## Key ON — Engine NOT Running
+
+- Starter works
+- Headlight OFF
+
+---
+
+## Engine Starts
+
+- Yellow trigger energises relays
+- Starter disabled
+- Headlight turns ON
+
+---
+
+## Engine Stops (Key Still ON)
+
+- Headlight stays ON
+- Starter re-enabled once relay relaxes
+
+---
+
+# Common Mistakes
+
+## Diode Installed Backwards
+
+Symptoms:
+- headlight problems
+- relay problems
+- feedback issues
+
+Fix:
+- reverse diode orientation
+
+---
+
+## Resistor Connected Wrong
+
+Symptoms:
+- headlight switches OFF when engine stops
+- relay chatter
+- unstable operation
+
+Fix:
+- ensure resistor connects from pin 87 back to pin 86 node
+
+---
+
+## Bad Ground
+
+Symptoms:
+- relays clicking weakly
+- intermittent behaviour
+
+Fix:
+- clean chassis ground
+- ensure good continuity
+
+---
+
+# Testing Procedure
+
+## Step 1
+Turn ignition ON.
+
+Expected:
+- starter works
+- headlight OFF
+
+---
+
+## Step 2
+Start engine.
+
+Expected:
+- headlight ON
+- starter disabled
+
+---
+
+## Step 3
+Stop engine with ignition still ON.
+
+Expected:
+- headlight stays ON
+
+---
+
+# Suggested Build Methods
+
+## Method 1 — Relay Socket Harness
+
+Recommended.
+
+Advantages:
+- easy to repair
+- easy to replace relays
+- automotive grade
+- neat installation
+
+---
+
+## Method 2 — Small Project Box
+
+Mount:
+- relays
+- diode
+- resistor
+
+inside sealed enclosure.
+
+Advantages:
+- weather resistant
+- factory appearance
+- reliable
+
+---
+
+# Safety Notes
+
+- Always fuse power feeds
+- Never bypass starter safety permanently
+- Always heat shrink exposed joins
+- Use automotive wire
+- Secure relays from vibration
+- Keep wiring away from engine heat
+
+---
+
+# Credits
+
+Original Yamaha logic recreated using community reverse engineering and testing.
+
+Special thanks to the XS650 community and forum members who documented the original relay behaviour.
+
+---
+
+# Disclaimer
+
+This project is provided for educational and restoration purposes.
+
+Users are responsible for verifying all wiring before powering the motorcycle.
+
+Always test safely.
+
+---
+
+# Final Notes
+
+This project recreates an increasingly hard-to-find Yamaha component using simple, rugged, serviceable parts.
+
+The design intentionally avoids:
+- microcontrollers
+- custom electronics
+- unobtainable OEM modules
+
+The result is:
+- easy to repair
+- easy to diagnose
+- easy to source parts for
+- understandable by beginners
+
+---
+
+# License
+
+MIT License
+
+You are free to:
+- use
+- modify
+- distribute
+- improve
+
+Attribution appreciated.
+
